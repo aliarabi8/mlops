@@ -25,6 +25,11 @@ jobs:
         run: |
           python -m pip install --upgrade . botocore boto3 awscli
 
+      - name: Install distutils manually (not recommended for long-term)
+        run: |
+          sudo apt-get update
+          sudo apt-get install python3-distutils
+
       - name: Configure AWS Credentials
         id: aws_creds
         uses: aws-actions/configure-aws-credentials@v1
