@@ -23,12 +23,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade . botocore boto3 awscli
+          python -m pip install --upgrade . botocore boto3 awscli sagemaker
 
-      - name: Install distutils manually (not recommended for long-term)
+      - name: Patch SageMaker SDK to fix distutils issue
         run: |
-          sudo apt-get update
-          sudo apt-get install python3-distutils
+            sed -i 's/from distutils.spawn import find_executable/from shutil import which as find_executable/' $(python -c "import sagemaker.local.image; print(sagemaker.local.image.__file__)")
 
       - name: Configure AWS Credentials
         id: aws_creds
